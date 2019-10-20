@@ -8,6 +8,9 @@ use ByTIC\EventDispatcher\Listeners\ListenerInterface;
 class SimpleListener implements ListenerInterface
 {
 
+    public $preFooInvoked = false;
+    public $postFooInvoked = false;
+
     /**
      * Handle an event.
      *
@@ -17,7 +20,7 @@ class SimpleListener implements ListenerInterface
      */
     public function handle(EventInterface $event)
     {
-        // TODO: Implement handle() method.
+        $this->{$event->getName() . 'Invoked'} = true;
     }
 }
 

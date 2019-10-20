@@ -50,12 +50,26 @@ trait HasListenersTrait
     /**
      * @inheritdoc
      */
-    public function getListeners($event)
+    public function getListeners(string $event = null)
     {
-        if (array_key_exists($event, $this->sortedListeners)) {
+        if (null !== $event) {
+            if (empty($this->listeners[$event])) {
+                return [];
+            }
+            if (!isset($this->sortedListeners[$event])) {
+                $this->sortListeners($event);
+            }
+
             return $this->sortedListeners[$event];
         }
-        return $this->sortedListeners[$event] = $this->getSortedListeners($event);
+
+        foreach ($this->listeners as $eventName => $eventListeners) {
+            if (!isset($this->sorted[$eventName])) {
+                $this->sortListeners($eventName);
+            }
+        }
+
+        return array_filter($this->sortedListeners);
     }
 
     /**
@@ -121,9 +135,27 @@ trait HasListenersTrait
         if (!$this->hasListeners($event)) {
             return [];
         }
-        $listeners = $this->listeners[$event];
-        krsort($listeners);
-        return call_user_func_array('array_merge', $listeners);
+        $this->sortListeners($event);
+        return call_user_func_array('array_merge', $this->sortedListeners[$event]);
+    }
+
+    /**
+     * @param string $eventName
+     */
+    protected function sortListeners(string $eventName)
+    {
+        krsort($this->listeners[$eventName]);
+
+        $this->sortedListeners[$eventName] = [];
+
+        foreach ($this->listeners[$eventName] as &$listeners) {
+            foreach ($listeners as $k => $listener) {
+                if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure) {
+                    $listener[0] = $listener[0]();
+                }
+                $this->sortedListeners[$eventName][] = $listener;
+            }
+        }
     }
 
     /**

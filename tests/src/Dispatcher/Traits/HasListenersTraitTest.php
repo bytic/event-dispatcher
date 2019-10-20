@@ -53,6 +53,30 @@ class HasListenersTraitTest extends AbstractTest
         self::assertCount(1, $this->dispatcher->getListeners('TEST'));
     }
 
+    public function testGetAllListenersSortsByPriority()
+    {
+        $listener1 = new SimpleListener();
+        $listener2 = new SimpleListener();
+        $listener3 = new SimpleListener();
+        $listener4 = new SimpleListener();
+        $listener5 = new SimpleListener();
+        $listener6 = new SimpleListener();
+
+        $this->dispatcher->addListener('pre.foo', $listener1, -10);
+        $this->dispatcher->addListener('pre.foo', $listener2);
+        $this->dispatcher->addListener('pre.foo', $listener3, 10);
+        $this->dispatcher->addListener('post.foo', $listener4, -10);
+        $this->dispatcher->addListener('post.foo', $listener5);
+        $this->dispatcher->addListener('post.foo', $listener6, 10);
+
+        $expected = [
+            'pre.foo' => [$listener3, $listener2, $listener1],
+            'post.foo' => [$listener6, $listener5, $listener4],
+        ];
+
+        $this->assertSame($expected, $this->dispatcher->getListeners());
+    }
+
     protected function setUp(): void
     {
         $this->dispatcher = $this->createEventDispatcher();

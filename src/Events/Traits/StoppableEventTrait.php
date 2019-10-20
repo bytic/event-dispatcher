@@ -1,12 +1,12 @@
 <?php
 
-namespace ByTIC\EventDispatcher\Events;
+namespace ByTIC\EventDispatcher\Events\Traits;
 
 /**
- * Trait StoppableEventInterface
- * @package ByTIC\EventDispatcher\Events
+ * Trait StoppableEventTrait
+ * @package ByTIC\EventDispatcher\Events\Traits
  */
-trait StoppableEventInterface
+trait StoppableEventTrait
 {
     private $propagationStopped = false;
 
