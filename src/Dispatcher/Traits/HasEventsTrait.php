@@ -17,14 +17,13 @@ trait HasEventsTrait
      *
      * @param string|EventInterface $event
      *
-     * @return array
+     * @return EventInterface
      */
     protected function prepareEvent($event)
     {
         $event = $this->ensureEvent($event);
-        $name = $event->getName();
 
-        return [$name, $event];
+        return $event;
     }
 
     /**

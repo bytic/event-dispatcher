@@ -4,6 +4,8 @@ namespace ByTIC\EventDispatcher\Tests\Dispatcher\Traits;
 
 use ByTIC\EventDispatcher\Dispatcher\EventDispatcher;
 use ByTIC\EventDispatcher\Events\EventInterface;
+use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
+use ByTIC\EventDispatcher\ListenerProviders\ListenerProviderInterface;
 use ByTIC\EventDispatcher\Tests\AbstractTest;
 use ByTIC\EventDispatcher\Tests\Fixtures\Events\Event;
 use ByTIC\EventDispatcher\Tests\Fixtures\Listeners\SimpleListener;
@@ -19,19 +21,22 @@ class EmittingTraitTest extends AbstractTest
      */
     private $dispatcher;
 
+    private $listenerProvider;
+
     private $listener;
 
     private $listeners;
 
     public function testDispatch()
     {
-        $this->dispatcher->addListener('preFoo', $this->listener);
-        $this->dispatcher->addListener('postFoo', $this->listener);
+        $this->listenerProvider->listen('preFoo', $this->listener);
+        $this->listenerProvider->listen('postFoo', $this->listener);
 
-        $this->dispatcher->dispatch(Event::named('preFoo'));
+        $event = Event::named('preFoo');
+        $this->dispatcher->dispatch($event);
 
-        $this->assertTrue($this->listener->preFooInvoked);
-        $this->assertFalse($this->listener->postFooInvoked);
+        $this->assertTrue($this->listener->invoked('preFoo'));
+        $this->assertFalse($this->listener->invoked('postFoo'));
 
         $this->assertInstanceOf(
             Event::class,
@@ -52,7 +57,8 @@ class EmittingTraitTest extends AbstractTest
 
     protected function setUp(): void
     {
-        $this->dispatcher = $this->createEventDispatcher();
+        $this->listenerProvider = $this->createListenerProvider();
+        $this->dispatcher = $this->createEventDispatcher($this->listenerProvider);
         $this->listener = new SimpleListener();
         $this->listeners[] = $this->logicalAnd();
         $this->listeners[] = new SimpleListener();
@@ -64,8 +70,20 @@ class EmittingTraitTest extends AbstractTest
         $this->listener = null;
     }
 
-    protected function createEventDispatcher()
+    /**
+     * @return ListenerProviderInterface|DefaultProvider
+     */
+    protected function createListenerProvider()
     {
-        return new EventDispatcher();
+        return new DefaultProvider();
+    }
+
+    /**
+     * @param $listenerProvider
+     * @return EventDispatcher
+     */
+    protected function createEventDispatcher($listenerProvider)
+    {
+        return new EventDispatcher($listenerProvider);
     }
 }

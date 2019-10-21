@@ -16,6 +16,7 @@
   ],
   "require": {
     "php": "^7.2",
+    "bytic/utility": "^1.0",
     "psr/event-dispatcher": "^1.0",
     "fig/event-dispatcher-util": "^1.0"
   },
@@ -42,6 +43,5 @@
     "test": "phpunit",
     "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
     "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
-  },
-  "minimum-stability": "dev"
+  }
 }

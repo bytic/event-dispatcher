@@ -2,7 +2,7 @@
 
 namespace ByTIC\EventDispatcher\Dispatcher\Traits;
 
-use ByTIC\EventDispatcher\Events\EventTrait;
+use Psr\EventDispatcher\StoppableEventInterface;
 
 /**
  * Trait EmittingTrait
@@ -11,33 +11,33 @@ use ByTIC\EventDispatcher\Events\EventTrait;
 trait EmittingTrait
 {
     /**
+     * @noinspection PhpUnhandledExceptionInspection
      * @inheritDoc
      */
     public function dispatch(object $event)
     {
-        list($name, $event) = $this->prepareEvent($event);
-        $this->invokeListeners($name, $event);
-        return $event;
-    }
+        $event = $this->prepareEvent($event);
 
-    protected function invokeListeners($name, $event)
-    {
-        $listeners = $this->getListeners($name);
-        $this->callListeners($listeners, $event);
-    }
-
-    /**
-     * @param iterable $listeners
-     * @param object|EventTrait $event
-     */
-    protected function callListeners(iterable $listeners, object $event)
-    {
-        foreach ($listeners as $listener) {
-            if (method_exists($event, 'isPropagationStopped') && $event->isPropagationStopped()) {
-                break;
-            }
-            $arguments = [$event];
-            call_user_func_array([$listener, 'handle'], $arguments);
+        // If the event is already stopped, this method becomes a no-op.
+        if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
+            return $event;
         }
+
+        foreach ($this->getListenerProvider()->getListenersForEvent($event) as $listener) {
+            // Technically this has an extraneous stopped-check after the last listener,
+            // but that doesn't violate the spec since it's still technically checking
+            // before each listener is called, given the check above.
+            try {
+                $listener($event);
+                if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
+                    break;
+                }
+            } catch (\Exception $e) {
+                // We do not catch Errors here, because Errors indicate the developer screwed up in
+                // some way. Let those bubble up because they should just become fatals.
+                throw $e;
+            }
+        }
+        return $event;
     }
 }

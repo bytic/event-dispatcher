@@ -5,11 +5,21 @@ namespace ByTIC\EventDispatcher\Tests\Fixtures\Listeners;
 use ByTIC\EventDispatcher\Events\EventInterface;
 use ByTIC\EventDispatcher\Listeners\ListenerInterface;
 
+/**
+ * Class SimpleListener
+ * @package ByTIC\EventDispatcher\Tests\Fixtures\Listeners
+ */
 class SimpleListener implements ListenerInterface
 {
+    protected $events = [];
 
-    public $preFooInvoked = false;
-    public $postFooInvoked = false;
+    /**
+     * @param EventInterface $event
+     */
+    public function __invoke(EventInterface $event)
+    {
+        $this->handle($event);
+    }
 
     /**
      * Handle an event.
@@ -20,7 +30,16 @@ class SimpleListener implements ListenerInterface
      */
     public function handle(EventInterface $event)
     {
-        $this->{$event->getName() . 'Invoked'} = true;
+        $this->events[$event->getName()] = true;
+    }
+
+    /**
+     * @param EventInterface|string $event
+     * @return bool
+     */
+    public function invoked($event)
+    {
+        $name = is_object($event) ? $event->getName() : $event;
+        return isset($this->events[$name]);
     }
 }
-
