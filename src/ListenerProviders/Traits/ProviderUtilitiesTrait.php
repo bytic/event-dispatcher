@@ -61,7 +61,7 @@ trait ProviderUtilitiesTrait
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param  \Closure|string  $listener
+     * @param \Closure|string $listener
      * @return \Closure
      */
     public function makeListener($listener)
@@ -69,31 +69,41 @@ trait ProviderUtilitiesTrait
         if (is_string($listener)) {
             return $this->createClassListener($listener);
         }
+        if (is_object($listener)) {
+            return $this->createObjectListener($listener);
+        }
+    }
+
+    /**
+     * Create a class based listener using the IoC container.
+     *
+     * @param string $listener
+     * @return \Closure
+     */
+    protected function createClassListener($listener)
+    {
+        return function ($event) use ($listener) {
+            return call_user_func_array(
+                $this->createClassCallable($listener), $event
+            );
+        };
+    }
+
+    /**
+     * @param $listener
+     * @return \Closure
+     */
+    protected function createObjectListener($listener)
+    {
         return function ($event) use ($listener) {
             return $listener($event);
         };
     }
 
     /**
-     * Create a class based listener using the IoC container.
-     *
-     * @param  string  $listener
-     * @param  bool  $wildcard
-     * @return \Closure
-     */
-    public function createClassListener($listener)
-    {
-        return function ($event, $payload) use ($listener) {
-            return call_user_func_array(
-                $this->createClassCallable($listener), $payload
-            );
-        };
-    }
-
-    /**
      * Create the class based event callable.
      *
-     * @param  string  $listener
+     * @param string $listener
      * @return callable
      */
     protected function createClassCallable($listener)
@@ -105,7 +115,7 @@ trait ProviderUtilitiesTrait
     /**
      * Parse the class listener into class and method.
      *
-     * @param  string  $listener
+     * @param string $listener
      * @return array
      */
     protected function parseClassCallable($listener)
