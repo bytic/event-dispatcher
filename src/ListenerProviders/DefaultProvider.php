@@ -2,6 +2,7 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders;
 
+use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
 
 /**
@@ -11,6 +12,7 @@ use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
 class DefaultProvider implements ListenerProviderInterface
 {
     use ProviderUtilitiesTrait;
+    use MakeListenerTrait;
 
     protected $listeners = [];
 

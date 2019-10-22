@@ -2,6 +2,7 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders;
 
+use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
 use ByTIC\EventDispatcher\Listeners\Collections\PriorityListenerCollection;
 
@@ -12,6 +13,7 @@ use ByTIC\EventDispatcher\Listeners\Collections\PriorityListenerCollection;
 class PriorityListenerProvider implements ListenerProviderInterface
 {
     use ProviderUtilitiesTrait;
+    use MakeListenerTrait;
 
     /**
      * @var PriorityListenerCollection[]
