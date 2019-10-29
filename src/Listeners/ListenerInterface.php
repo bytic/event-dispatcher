@@ -19,5 +19,4 @@ interface ListenerInterface
      * @return void
      */
     public function handle(EventInterface $event);
-
 }

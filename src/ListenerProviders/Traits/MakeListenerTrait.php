@@ -17,12 +17,12 @@ trait MakeListenerTrait
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param Closure|string $listener
+     * @param Closure|string|array $listener
      * @return Closure
      */
     public function makeListener($listener)
     {
-        if (is_string($listener)) {
+        if (is_string($listener) || is_array($listener)) {
             return $this->createClassListener($listener);
         }
         if (is_object($listener)) {
@@ -63,7 +63,7 @@ trait MakeListenerTrait
     /**
      * Create the class based event callable.
      *
-     * @param string $listener
+     * @param string|array $listener
      * @return callable
      */
     protected function createClassCallable($listener)
@@ -80,11 +80,14 @@ trait MakeListenerTrait
     /**
      * Parse the class listener into class and method.
      *
-     * @param string $listener
+     * @param string|array $listener
      * @return array
      */
     protected function parseClassCallable($listener)
     {
+        if (is_array($listener)) {
+            return $listener;
+        }
         return Str::parseCallback($listener, 'handle');
     }
 }

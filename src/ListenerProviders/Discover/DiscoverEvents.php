@@ -1,0 +1,69 @@
+<?php
+
+namespace ByTIC\EventDispatcher\ListenerProviders\Discover;
+
+use Nip\Utility\Str;
+use ReflectionClass;
+use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
+
+/**
+ * Class DiscoverEvents
+ * @package ByTIC\EventDispatcher\ListenerProviders\Discover
+ */
+class DiscoverEvents
+{
+    /**
+     * Get all of the events and listeners by searching the given listener directory.
+     *
+     * @param array $listenerPaths
+     * @return array
+     */
+    public static function within($listenerPaths)
+    {
+        return static::getListenerEvents(
+            static::getListenerClasses($listenerPaths)
+        );
+    }
+
+    /**
+     * @param array $paths
+     * @return array|\Roave\BetterReflection\Reflection\ReflectionClass[]
+     */
+    protected static function getListenerClasses($paths)
+    {
+        $astLocator = (new BetterReflection())->astLocator();
+        $paths = is_array($paths) ? $paths : [$paths];
+        $directoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
+        $reflector = new ClassReflector($directoriesSourceLocator);
+        return $reflector->getAllClasses();
+    }
+
+    /**
+     * @param \Roave\BetterReflection\Reflection\ReflectionClass[] $listeners
+     * @return array
+     */
+    protected static function getListenerEvents($listeners)
+    {
+        $listenerEvents = [];
+        foreach ($listeners as $listener) {
+            try {
+                $listener = new ReflectionClass($listener->getName());
+                foreach ($listener->getMethods() as $method) {
+                    if (!$method->isPublic()) {
+                        continue;
+                    }
+                    if (!Str::is('handle*', $method->name) ||
+                        !isset($method->getParameters()[0])) {
+                        continue;
+                    }
+                    $eventName = $method->getParameters()[0]->getClass()->getName();
+                    $listenerEvents[$eventName][] = [$listener->getName(), $method->getName()];
+                }
+            } catch (\ReflectionException $e) {
+            }
+        }
+        return array_filter($listenerEvents);
+    }
+}

@@ -9,7 +9,7 @@ if (!function_exists('event')) {
      * @param  EventInterface $event
      * @return EventInterface
      */
-    function config(EventInterface $event)
+    function event(EventInterface $event)
     {
         return app('events')->dispatch($event);
     }

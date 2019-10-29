@@ -2,6 +2,7 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders;
 
+use ByTIC\EventDispatcher\ListenerProviders\Traits\ListenForInterfacesTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
 
@@ -13,6 +14,7 @@ class DefaultProvider implements ListenerProviderInterface
 {
     use ProviderUtilitiesTrait;
     use MakeListenerTrait;
+    use ListenForInterfacesTrait;
 
     protected $listeners = [];
 
@@ -22,10 +24,10 @@ class DefaultProvider implements ListenerProviderInterface
     public function getListenersForEvent(object $event): iterable
     {
         $eventType = static::getEventType($event);
-        if (!isset($this->listeners[$eventType])) {
-            return [];
+        if (isset($this->listeners[$eventType])) {
+            yield from $this->listeners[$eventType];
         }
-        yield from $this->listeners[$eventType];
+        yield from $this->getListenersForEventInterfaces($event);
     }
 
     /**
