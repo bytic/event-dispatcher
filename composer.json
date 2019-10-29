@@ -16,6 +16,7 @@
   ],
   "require": {
     "php": "^7.2",
+    "bytic/container": "^0.9",
     "bytic/utility": "^1.0",
     "psr/event-dispatcher": "^1.0",
     "fig/event-dispatcher-util": "^1.0"
