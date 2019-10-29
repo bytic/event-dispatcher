@@ -44,7 +44,7 @@ trait MakeListenerTrait
     {
         return function ($event) use ($listener) {
             return call_user_func_array(
-                $this->createClassCallable($listener), $event
+                $this->createClassCallable($listener), [$event]
             );
         };
     }
@@ -74,7 +74,8 @@ trait MakeListenerTrait
             return $this->createQueuedHandlerCallable($class, $method);
         }
 
-        return [$class, $method];
+        $listenerObject = app($class);
+        return [$listenerObject, $method];
     }
 
     /**

@@ -31,7 +31,9 @@ class EventServiceProvider extends AbstractSignatureServiceProvider
 
     protected function registerListenerProvider()
     {
-        $this->getContainer()->add(ListenerProviderInterface::class, DefaultProvider::class);
+        if (!$this->getContainer()->has(ListenerProviderInterface::class)) {
+            $this->getContainer()->add(ListenerProviderInterface::class, DefaultProvider::class);
+        }
 
         $this->getContainer()->singleton('events.listeners', function () {
             return $this->getContainer()->get(ListenerProviderInterface::class);
