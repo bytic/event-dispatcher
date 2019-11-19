@@ -4,6 +4,8 @@ namespace ByTIC\EventDispatcher\Queue\Listeners;
 
 use ByTIC\EventDispatcher\Events\EventInterface;
 use ByTIC\EventDispatcher\Listeners\ListenerInterface;
+use ByTIC\Queue\Connections\Connection;
+use ByTIC\Queue\Messages\Message;
 use ReflectionClass;
 
 /**
@@ -52,13 +54,23 @@ class CallQueuedListener implements ListenerInterface
      */
     protected function queueEvent(EventInterface $event)
     {
+        /** @var Connection $connection */
         $connection = $this->createConnection();
-        $data = $this->queueData($event);
+        $message = $this->queueMessage($event);
         $queue = $this->listenerObject->queue ?? null;
 
         isset($this->listenerObject->delay)
-            ? $connection->laterOn($queue, $this->listenerObject->delay, $data)
-            : $connection->pushOn($queue, $data);
+            ? $connection->laterOn($message, $queue, $this->listenerObject->delay)
+            : $connection->sendOn($message, $queue);
+    }
+
+    /**
+     * @param EventInterface $event
+     * @return Message
+     */
+    protected function queueMessage(EventInterface $event)
+    {
+        return new Message($this->queueData($event));
     }
 
     /**
