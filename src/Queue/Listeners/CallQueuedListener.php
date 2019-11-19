@@ -30,6 +30,9 @@ class CallQueuedListener implements ListenerInterface
 
     /**
      * @inheritDoc
+     * @throws \Interop\Queue\Exception
+     * @throws \Interop\Queue\Exception\InvalidDestinationException
+     * @throws \Interop\Queue\Exception\InvalidMessageException
      */
     public function handle(EventInterface $event)
     {
@@ -51,6 +54,9 @@ class CallQueuedListener implements ListenerInterface
 
     /**
      * @param EventInterface $event
+     * @throws \Interop\Queue\Exception
+     * @throws \Interop\Queue\Exception\InvalidDestinationException
+     * @throws \Interop\Queue\Exception\InvalidMessageException
      */
     protected function queueEvent(EventInterface $event)
     {
