@@ -35,14 +35,14 @@ class EmittingTraitTest extends AbstractTest
         $event = Event::named('preFoo');
         $this->dispatcher->dispatch($event);
 
-        $this->assertTrue($this->listener->invoked('preFoo'));
-        $this->assertFalse($this->listener->invoked('postFoo'));
+        static::assertTrue($this->listener->invoked('preFoo'));
+        static::assertFalse($this->listener->invoked('postFoo'));
 
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             Event::class,
             $this->dispatcher->dispatch(Event::named('noevent'))
         );
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             EventInterface::class,
             $this->dispatcher->dispatch(new Event())
         );
@@ -52,11 +52,12 @@ class EmittingTraitTest extends AbstractTest
     {
         $event = new Event();
         $return = $this->dispatcher->dispatch($event);
-        $this->assertSame($event, $return);
+        static::assertSame($event, $return);
     }
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->listenerProvider = $this->createListenerProvider();
         $this->dispatcher = $this->createEventDispatcher($this->listenerProvider);
         $this->listener = new SimpleListener();
@@ -66,6 +67,7 @@ class EmittingTraitTest extends AbstractTest
 
     protected function tearDown(): void
     {
+        parent::tearDown();
         $this->dispatcher = null;
         $this->listener = null;
     }

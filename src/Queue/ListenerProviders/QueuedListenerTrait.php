@@ -14,7 +14,6 @@ use ReflectionClass;
  */
 trait QueuedListenerTrait
 {
-    use HasQueueResolverTrait;
 
     /**
      * Determine if the event handler class should be queued.
@@ -64,6 +63,7 @@ trait QueuedListenerTrait
     {
         if (method_exists($class, 'shouldQueue')) {
             $listener = new $class();
+            /** @noinspection PhpUndefinedMethodInspection */
             return $listener->shouldQueue($event);
         }
         return true;
@@ -81,7 +81,6 @@ trait QueuedListenerTrait
     {
         $listener = new CallQueuedListener();
         $listener->setListener([$class, $method]);
-        $listener->setQueueHandler($this->resolveQueue());
         $listener->handle($event);
     }
 }

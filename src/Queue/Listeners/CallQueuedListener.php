@@ -4,8 +4,8 @@ namespace ByTIC\EventDispatcher\Queue\Listeners;
 
 use ByTIC\EventDispatcher\Events\EventInterface;
 use ByTIC\EventDispatcher\Listeners\ListenerInterface;
-use ByTIC\Queue\Connections\Connection;
-use ByTIC\Queue\Messages\Message;
+use ByTIC\Queue\JobQueue\Bus\PendingDispatch;
+use ByTIC\Queue\JobQueue\Jobs\Job;
 use ReflectionClass;
 
 /**
@@ -18,21 +18,8 @@ class CallQueuedListener implements ListenerInterface
 
     protected $listenerObject;
 
-    protected $queueHandler;
-
-    /**
-     * @param mixed $queueHandler
-     */
-    public function setQueueHandler($queueHandler): void
-    {
-        $this->queueHandler = $queueHandler;
-    }
-
     /**
      * @inheritDoc
-     * @throws \Interop\Queue\Exception
-     * @throws \Interop\Queue\Exception\InvalidDestinationException
-     * @throws \Interop\Queue\Exception\InvalidMessageException
      */
     public function handle(EventInterface $event)
     {
@@ -54,50 +41,14 @@ class CallQueuedListener implements ListenerInterface
 
     /**
      * @param EventInterface $event
-     * @throws \Interop\Queue\Exception
-     * @throws \Interop\Queue\Exception\InvalidDestinationException
-     * @throws \Interop\Queue\Exception\InvalidMessageException
      */
     protected function queueEvent(EventInterface $event)
     {
-        /** @var Connection $connection */
-        $connection = $this->createConnection();
-        $message = $this->queueMessage($event);
-        $queue = $this->listenerObject->queue ?? null;
+        $job = new Job($this->listener);
+        $job->onConnection($this->listenerObject->connection);
+        $job->delay($this->listenerObject->connection);
+        $job->arguments([$event]);
 
-        isset($this->listenerObject->delay)
-            ? $connection->laterOn($message, $queue, $this->listenerObject->delay)
-            : $connection->sendOn($message, $queue);
-    }
-
-    /**
-     * @param EventInterface $event
-     * @return Message
-     */
-    protected function queueMessage(EventInterface $event)
-    {
-        return new Message($this->queueData($event));
-    }
-
-    /**
-     * @param EventInterface $event
-     * @return array
-     */
-    protected function queueData(EventInterface $event)
-    {
-        return [
-            'listener' => $this->listener,
-            'event' => $event,
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function createConnection()
-    {
-        return $this->queueHandler->connection(
-            $this->listenerObject->connection ?? null
-        );
+        (new PendingDispatch($job));
     }
 }
