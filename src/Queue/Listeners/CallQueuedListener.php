@@ -45,8 +45,16 @@ class CallQueuedListener implements ListenerInterface
     protected function queueEvent(EventInterface $event)
     {
         $job = new Job($this->listener);
-        $job->onConnection($this->listenerObject->connection);
-        $job->delay($this->listenerObject->connection);
+
+        if (isset($this->listenerObject->connection)) {
+            $job->onConnection($this->listenerObject->connection);
+        }
+        if (isset($this->listenerObject->queue)) {
+            $job->onQueue($this->listenerObject->queue);
+        }
+        if (isset($this->listenerObject->delay)) {
+            $job->delay($this->listenerObject->delay);
+        }
         $job->arguments([$event]);
 
         (new PendingDispatch($job));
