@@ -76,6 +76,11 @@
       <path value="$PROJECT_DIR$/vendor/enqueue/enqueue" />
       <path value="$PROJECT_DIR$/vendor/makasim/temp-file" />
       <path value="$PROJECT_DIR$/vendor/enqueue/fs" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
