@@ -27,7 +27,8 @@ class PriorityListenerProvider implements ListenerProviderInterface
     {
         $eventType = static::getEventType($event);
         if (!isset($this->listeners[$eventType])) {
-            return [];
+            yield;
+            return;
         }
         yield from $this->listeners[$eventType];
     }

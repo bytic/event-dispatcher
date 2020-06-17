@@ -2,6 +2,10 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
 
+/**
+ * Trait ListenForInterfacesTrait
+ * @package ByTIC\EventDispatcher\ListenerProviders\Traits
+ */
 trait ListenForInterfacesTrait
 {
     /**
