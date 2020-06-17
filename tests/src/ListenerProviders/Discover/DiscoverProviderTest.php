@@ -20,6 +20,6 @@ class DiscoverProviderTest extends AbstractTest
         $event = new Event();
         $listeners = $provider->getListenersForEvent($event);
 
-        self::assertGreaterThan(2, iterator_count($listeners));
+        self::assertGreaterThanOrEqual(2, iterator_count($listeners));
     }
 }
