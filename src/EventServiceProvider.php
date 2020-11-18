@@ -4,7 +4,7 @@ namespace ByTIC\EventDispatcher;
 
 use ByTIC\EventDispatcher\Dispatcher\EventDispatcher;
 use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
-use Nip\Container\ServiceProvider\AbstractSignatureServiceProvider;
+use \Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
@@ -24,7 +24,7 @@ class EventServiceProvider extends AbstractSignatureServiceProvider
 
     protected function registerDispatcher()
     {
-        $this->getContainer()->singleton('events', function () {
+        $this->getContainer()->share('events', function () {
             return (new EventDispatcher($this->getContainer()->get('events.listeners')));
         });
     }
@@ -35,7 +35,7 @@ class EventServiceProvider extends AbstractSignatureServiceProvider
             $this->getContainer()->add(ListenerProviderInterface::class, DefaultProvider::class);
         }
 
-        $this->getContainer()->singleton('events.listeners', function () {
+        $this->getContainer()->share('events.listeners', function () {
             return $this->getContainer()->get(ListenerProviderInterface::class);
         });
     }
