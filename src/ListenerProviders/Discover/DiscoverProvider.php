@@ -41,7 +41,7 @@ class DiscoverProvider extends DefaultProvider
      *
      * @return array
      */
-    protected function discoverEventsWithin()
+    protected function discoverEventsWithin(): array
     {
         if ($this->discoveryPath === null) {
             $this->discoveryPath = $this->detectDiscoveryPath();
@@ -53,7 +53,7 @@ class DiscoverProvider extends DefaultProvider
     /**
      * @param string $path
      */
-    public function addDiscoveryPath($path)
+    public function addDiscoveryPath(string $path)
     {
         $this->discoveryPath[] = $path;
     }
@@ -61,17 +61,56 @@ class DiscoverProvider extends DefaultProvider
     /**
      * @return array
      */
-    protected function detectDiscoveryPath()
+    protected function detectDiscoveryPath(): array
     {
-        if (!defined('APPLICATION_PATH')) {
+        $paths = $this->detectDiscoveryFromConfig();
+        if (count($paths)) {
+            return $paths;
+        }
+        return $this->detectDiscoveryFromApplication();
+    }
+
+    protected function detectDiscoveryFromConfig(): array
+    {
+        if (!function_exists('config')) {
             return [];
         }
-        $folder = APPLICATION_PATH . '/Listeners';
+
+        return config('event-dispatcher.', []);
+    }
+
+    protected function detectDiscoveryFromApplication(): array
+    {
+        $basePath = $this->detectApplicationPath();
+        if (!is_dir($basePath)) {
+            return [];
+        }
+
+        $folder = $basePath . '/Listeners';
         if (!is_dir($folder)) {
             return [];
         }
+
         return [
             $folder,
         ];
+    }
+
+    /**
+     * @return false|string
+     */
+    protected function detectApplicationPath()
+    {
+        if (defined('APPLICATION_PATH')) {
+            return APPLICATION_PATH;
+        }
+        if (!function_exists('app')) {
+            return false;
+        }
+        $app = app();
+        if ($app->has('path')) {
+            return $app->get('path');
+        }
+       return false;
     }
 }

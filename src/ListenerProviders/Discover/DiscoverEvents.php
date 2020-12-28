@@ -20,7 +20,7 @@ class DiscoverEvents
      * @param array $listenerPaths
      * @return array
      */
-    public static function within($listenerPaths)
+    public static function within($listenerPaths): array
     {
         return static::getListenerEvents(
             static::getListenerClasses($listenerPaths)
@@ -31,7 +31,7 @@ class DiscoverEvents
      * @param array $paths
      * @return array|\Roave\BetterReflection\Reflection\ReflectionClass[]
      */
-    protected static function getListenerClasses($paths)
+    protected static function getListenerClasses($paths): array
     {
         $astLocator = (new BetterReflection())->astLocator();
         $paths = is_array($paths) ? $paths : [$paths];
@@ -44,7 +44,7 @@ class DiscoverEvents
      * @param \Roave\BetterReflection\Reflection\ReflectionClass[] $listeners
      * @return array
      */
-    protected static function getListenerEvents($listeners)
+    protected static function getListenerEvents(array $listeners): array
     {
         $listenerEvents = [];
         foreach ($listeners as $listener) {
