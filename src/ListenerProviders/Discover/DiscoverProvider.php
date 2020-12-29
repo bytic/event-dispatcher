@@ -76,7 +76,17 @@ class DiscoverProvider extends DefaultProvider
             return [];
         }
 
-        return config('event-dispatcher.', []);
+        $config = config('event-dispatcher.listener_paths');
+        if (!$config) {
+            return [];
+        }
+        $paths = $config->toArray();
+        foreach ($paths as $key => $path) {
+            if (!is_dir($path)) {
+                unset($paths[$key]);
+            }
+        }
+        return $paths;
     }
 
     protected function detectDiscoveryFromApplication(): array
