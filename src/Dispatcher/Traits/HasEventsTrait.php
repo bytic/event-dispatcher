@@ -5,6 +5,7 @@ namespace ByTIC\EventDispatcher\Dispatcher\Traits;
 use ByTIC\EventDispatcher\Events\EventFactory;
 use ByTIC\EventDispatcher\Events\EventInterface;
 use InvalidArgumentException;
+use Psr\EventDispatcher\StoppableEventInterface;
 
 /**
  * Trait HasEventsTrait
@@ -40,10 +41,13 @@ trait HasEventsTrait
         if (is_string($event)) {
             return EventFactory::named($event);
         }
-        if (!$event instanceof EventInterface) {
-            throw new InvalidArgumentException('Events should be provides as Event instances or string, received type: ' . gettype($event));
+        if ($event instanceof EventInterface) {
+            return $event;
+        }
+        if ($event instanceof StoppableEventInterface) {
+            return $event;
         }
 
-        return $event;
+        throw new InvalidArgumentException('Events should be provides as Event instances or string, received type: ' . gettype($event));
     }
 }
