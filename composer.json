@@ -25,7 +25,7 @@
   "require-dev": {
     "bytic/container": "^1.0|^2.0",
     "bytic/config": "^1.0|^2.0",
-    "phpunit/phpunit": "^7.2|^8.0|^9.0",
+    "bytic/phpqatools": "^1.0",
     "bytic/queue": "^0.9|^1.0",
     "queue-interop/queue-interop": "^0.7|^0.8",
     "mockery/mockery": "^1.1"
@@ -49,8 +49,31 @@
     }
   },
   "scripts": {
-    "test": "phpunit",
-    "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
-    "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    "tests": [
+      "@cs",
+      "@analyse",
+      "@test"
+    ],
+    "test": [
+      "phpunit"
+    ],
+    "analyse": [
+      "@stan",
+      "@psalm"
+    ],
+    "cs": [
+      "phpcs"
+    ],
+    "cs-fix": [
+      "phpcbf"
+    ],
+    "coverage": [
+      "php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage"
+    ],
+    "metrics": [
+      "phpmetrics --report-html=build/metrics --exclude=Exception src"
+    ],
+    "stan": "phpstan analyse",
+    "psalm": "psalm --output-format=compact --find-dead-code --find-unused-psalm-suppress --long-progress "
   }
 }

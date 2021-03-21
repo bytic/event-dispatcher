@@ -6,10 +6,10 @@ if (!function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
      *
-     * @param  EventInterface $event
-     * @return EventInterface
+     * @param object|EventInterface $event
+     * @return object|EventInterface
      */
-    function event(EventInterface $event)
+    function event(object $event)
     {
         return app('events')->dispatch($event);
     }
