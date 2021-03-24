@@ -5,6 +5,7 @@ namespace ByTIC\EventDispatcher\ListenerProviders;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ListenForInterfacesTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
  * Class DefaultProvider

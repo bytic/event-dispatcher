@@ -2,6 +2,7 @@
 
 namespace ByTIC\EventDispatcher\Tests\Fixtures\Events;
 
+use ByTIC\EventDispatcher\Events\Dispatchable;
 use ByTIC\EventDispatcher\Events\EventInterface;
 use ByTIC\EventDispatcher\Events\EventTrait;
 use Psr\EventDispatcher\StoppableEventInterface;
@@ -13,6 +14,14 @@ use Psr\EventDispatcher\StoppableEventInterface;
 class Event implements EventInterface, StoppableEventInterface
 {
     use EventTrait;
+    use Dispatchable;
+
+    public $arguments = [];
+
+    public function __construct()
+    {
+        $this->arguments = func_get_args();
+    }
 
     protected $data = '';
 

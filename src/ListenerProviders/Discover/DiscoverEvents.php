@@ -11,6 +11,8 @@ use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 /**
  * Class DiscoverEvents
  * @package ByTIC\EventDispatcher\ListenerProviders\Discover
+ *
+ * @internal
  */
 class DiscoverEvents
 {

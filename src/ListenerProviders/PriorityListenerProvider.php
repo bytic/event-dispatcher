@@ -4,60 +4,35 @@ namespace ByTIC\EventDispatcher\ListenerProviders;
 
 use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
-use ByTIC\EventDispatcher\Listeners\Collections\PriorityListenerCollection;
+use League\Event\ListenerPriority;
+use League\Event\PrioritizedListenerRegistry;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
  * Class PriorityListenerProvider
  * @package ByTIC\EventDispatcher\ListenerProviders
  */
-class PriorityListenerProvider implements ListenerProviderInterface
+class PriorityListenerProvider extends PrioritizedListenerRegistry implements ListenerProviderInterface
 {
     use ProviderUtilitiesTrait;
     use MakeListenerTrait;
 
     /**
-     * @var PriorityListenerCollection[]
-     */
-    protected $listeners;
-
-    /**
-     * @inheritDoc
-     */
-    public function getListenersForEvent(object $event): iterable
-    {
-        $eventType = static::getEventType($event);
-        if (!isset($this->listeners[$eventType])) {
-            yield;
-            return;
-        }
-        yield from $this->listeners[$eventType];
-    }
-
-    /**
      * @param callable|string $listener
      * @param int $priority
-     * @param string|null $type
+     * @param string|null $event
      * @param string|null $id
-     * @return string
+     * @return void
      */
-    public function attach($listener, int $priority = 0, string $type = null, string $id = null): string
-    {
+    public function attach(
+        $listener,
+        int $priority = ListenerPriority::NORMAL,
+        string $event = null,
+        string $id = null
+    ): void {
         $listener = self::makeListener($listener);
-        $type = $type ?? $this->getParameterType($listener);
-        $id = $id ?? $this->getListenerId($listener);
-        $this->checkListenerCollection($type);
-
-
-        return $this->listeners[$type]->addItem($listener, $priority, $id);
+        $event = $event ?? $this->getParameterType($listener);
+        $this->subscribeTo($event, $listener, $priority);
     }
 
-    /**
-     * @param string $type
-     */
-    protected function checkListenerCollection($type)
-    {
-        if (!isset($this->listeners[$type])) {
-            $this->listeners[$type] = new PriorityListenerCollection();
-        }
-    }
 }

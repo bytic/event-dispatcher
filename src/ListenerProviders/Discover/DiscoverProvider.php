@@ -7,6 +7,8 @@ use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
 /**
  * Class DiscoverProvider
  * @package ByTIC\EventDispatcher\ListenerProviders\Discover
+ *
+ * @internal
  */
 class DiscoverProvider extends DefaultProvider
 {
@@ -28,6 +30,12 @@ class DiscoverProvider extends DefaultProvider
         if ($this->discovered !== null) {
             return;
         }
+        $this->doDiscovery();
+        $this->discovered = true;
+    }
+
+    protected function doDiscovery()
+    {
         $eventsArray = DiscoverEvents::within($this->discoverEventsWithin());
         foreach ($eventsArray as $event => $listeners) {
             foreach ($listeners as $listener) {

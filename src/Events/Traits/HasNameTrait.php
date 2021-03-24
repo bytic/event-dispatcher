@@ -12,6 +12,11 @@ trait HasNameTrait
 {
     protected $name = null;
 
+    public function eventName(): string
+    {
+        return $this->getName();
+    }
+
     public function getName()
     {
         if ($this->name === null) {
@@ -32,12 +37,12 @@ trait HasNameTrait
      * Create a new event instance.
      *
      * @param string $name
-     *
+     * @param mixed ...$arguments
      * @return EventInterface|static
      */
-    public static function named($name)
+    public static function named($name, ... $arguments)
     {
-        $event = new static();
+        $event = new static(... $arguments);/** @phpstan-ignore-line */
         $event->setName($name);
         return $event;
     }

@@ -20,7 +20,8 @@
     "symfony/finder": "^4.3|^5.0",
     "roave/better-reflection": "^3.5|^4.0",
     "psr/event-dispatcher": "^1.0",
-    "fig/event-dispatcher-util": "^1.0"
+    "fig/event-dispatcher-util": "^1.0",
+    "league/event": "^3.0"
   },
   "require-dev": {
     "bytic/container": "^1.0|^2.0",
@@ -38,6 +39,9 @@
     "psr-4": {
       "ByTIC\\EventDispatcher\\": "src"
     },
+    "classmap": [
+      "legacy"
+    ],
     "files": [
       "src/functions/helpers.php"
     ]
@@ -50,9 +54,8 @@
   },
   "scripts": {
     "tests": [
-      "@cs",
-      "@analyse",
-      "@test"
+      "@test",
+      "@analyse"
     ],
     "test": [
       "phpunit"
@@ -60,18 +63,6 @@
     "analyse": [
       "@stan",
       "@psalm"
-    ],
-    "cs": [
-      "phpcs"
-    ],
-    "cs-fix": [
-      "phpcbf"
-    ],
-    "coverage": [
-      "php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage"
-    ],
-    "metrics": [
-      "phpmetrics --report-html=build/metrics --exclude=Exception src"
     ],
     "stan": "phpstan analyse",
     "psalm": "psalm --output-format=compact --find-dead-code --find-unused-psalm-suppress --long-progress "
