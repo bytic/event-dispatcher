@@ -34,5 +34,4 @@ class PriorityListenerProvider extends PrioritizedListenerRegistry implements Li
         $event = $event ?? $this->getParameterType($listener);
         $this->subscribeTo($event, $listener, $priority);
     }
-
 }

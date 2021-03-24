@@ -4,7 +4,7 @@ namespace ByTIC\EventDispatcher;
 
 use ByTIC\EventDispatcher\Dispatcher\EventDispatcher;
 use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
-use \Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
+use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**

@@ -10,7 +10,6 @@ use ByTIC\EventDispatcher\Events\EventInterface;
  */
 interface ListenerInterface
 {
-
     /**
      * Handle an event.
      *

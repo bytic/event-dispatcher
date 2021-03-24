@@ -12,4 +12,3 @@ class EventDispatcher extends \League\Event\EventDispatcher implements EventDisp
 {
     use HasListenersTrait;
 }
-

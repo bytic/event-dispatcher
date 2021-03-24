@@ -57,5 +57,4 @@ trait ProviderUtilitiesTrait
         }
         return $event;
     }
-
 }

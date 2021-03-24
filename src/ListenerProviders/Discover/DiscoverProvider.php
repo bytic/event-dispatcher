@@ -129,6 +129,6 @@ class DiscoverProvider extends DefaultProvider
         if ($app->has('path')) {
             return $app->get('path');
         }
-       return false;
+        return false;
     }
 }

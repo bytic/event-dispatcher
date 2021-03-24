@@ -29,7 +29,7 @@ class DispatchableTest extends AbstractTest
         $dispatcher = $this->mockDispatcherInContainer();
         $dispatcher->shouldReceive('dispatch')->once()->andReturnArg(0);
 
-        self::assertSame(null ,Event::dispatchIf(false));
+        self::assertSame(null, Event::dispatchIf(false));
 
         $event = Event::dispatchIf(true);
         self::assertInstanceOf(Event::class, $event);
@@ -41,7 +41,7 @@ class DispatchableTest extends AbstractTest
         $dispatcher->shouldReceive('dispatch')->once()->andReturnArg(0);
 
 
-        self::assertSame(null ,Event::dispatchUnless(true));
+        self::assertSame(null, Event::dispatchUnless(true));
 
         $event = Event::dispatchUnless(false);
         self::assertInstanceOf(Event::class, $event);
