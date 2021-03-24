@@ -2,7 +2,7 @@
 
 namespace ByTIC\EventDispatcher\Dispatcher\Traits;
 
-use \Psr\EventDispatcher\ListenerProviderInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
  * Trait HasListenersTrait
@@ -10,7 +10,6 @@ use \Psr\EventDispatcher\ListenerProviderInterface;
  */
 trait HasListenersTrait
 {
-
     /**
      * @return ListenerProviderInterface
      */

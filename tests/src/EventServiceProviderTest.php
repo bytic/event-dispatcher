@@ -48,7 +48,7 @@ class EventServiceProviderTest extends AbstractTest
         self::assertInstanceOf(CustomProvider::class, $listenerProvider);
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

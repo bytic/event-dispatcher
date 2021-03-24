@@ -8,7 +8,6 @@ namespace ByTIC\EventDispatcher\Events;
  */
 trait Dispatchable
 {
-
     /**
      * Dispatch the event with the given arguments.
      *

@@ -44,7 +44,8 @@ trait MakeListenerTrait
     {
         return function ($event) use ($listener) {
             return call_user_func_array(
-                $this->createClassCallable($listener), [$event]
+                $this->createClassCallable($listener),
+                [$event]
             );
         };
     }

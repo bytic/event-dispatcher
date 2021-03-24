@@ -13,7 +13,6 @@ use ByTIC\EventDispatcher\Tests\Fixtures\Listeners\QueueListener;
  */
 class QueuedListenerTraitTest extends AbstractTest
 {
-
     public function testListenerWithInterfaceQueued()
     {
         $event = Event::named('preFoo');

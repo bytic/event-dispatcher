@@ -8,5 +8,4 @@ namespace ByTIC\EventDispatcher\Queue\Listeners;
  */
 interface ShouldQueue
 {
-
 }

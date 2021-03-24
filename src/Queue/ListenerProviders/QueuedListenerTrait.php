@@ -14,7 +14,6 @@ use ReflectionClass;
  */
 trait QueuedListenerTrait
 {
-
     /**
      * Determine if the event handler class should be queued.
      *
