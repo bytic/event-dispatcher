@@ -3,49 +3,48 @@
 namespace ByTIC\EventDispatcher\ListenerProviders;
 
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ListenForInterfacesTrait;
-use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
-use Psr\EventDispatcher\ListenerProviderInterface;
+use League\Event\ListenerPriority;
 
 /**
  * Class DefaultProvider
  * @package ByTIC\EventDispatcher\ListenerProvider
  */
-class DefaultProvider implements ListenerProviderInterface
+class DefaultProvider extends PriorityListenerProvider
 {
     use ProviderUtilitiesTrait;
-    use MakeListenerTrait;
     use ListenForInterfacesTrait;
-
-    protected $listeners = [];
 
     /**
      * @inheritDoc
      */
     public function getListenersForEvent(object $event): iterable
     {
-        $eventType = static::getEventType($event);
-        if (isset($this->listeners[$eventType])) {
-            yield from $this->listeners[$eventType];
+        yield from parent::getListenersForEvent($event);
+
+        if (method_exists($event, 'getName') ){
+            yield from $this->getListenersForEventName($event->eventName());
         }
         yield from $this->getListenersForEventInterfaces($event);
     }
 
     /**
-     * @param string $eventType
+     * @param string $eventName
      * @param callable|string $listener
+     * @param int $priority
      */
-    public function listen(string $eventType, $listener): void
+    public function addListener(string $eventName, $listener, int $priority = ListenerPriority::NORMAL): void
     {
-        if (!isset($this->listeners[$eventType])) {
-            $this->listeners[$eventType] = [];
-        }
+        $this->attach($listener, $priority, $eventName);
+    }
 
-        $listener = self::makeListener($listener);
-
-        if (\in_array($listener, $this->listeners[$eventType], true)) {
-            return;
-        }
-        $this->listeners[$eventType][] = $listener;
+    /**
+     * @param string $eventName
+     * @param callable|string $listener
+     * @param int $priority
+     */
+    public function listen(string $eventName, $listener, int $priority = ListenerPriority::NORMAL): void
+    {
+        $this->attach($listener, $priority, $eventName);
     }
 }

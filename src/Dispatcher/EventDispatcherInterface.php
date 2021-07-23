@@ -6,6 +6,6 @@ namespace ByTIC\EventDispatcher\Dispatcher;
  * Interface EventDispatcherInterface
  * @package ByTIC\EventDispatcher\Dispatcher
  */
-interface EventDispatcherInterface extends \Psr\EventDispatcher\EventDispatcherInterface
+interface EventDispatcherInterface extends \Symfony\Component\EventDispatcher\EventDispatcherInterface
 {
 }
