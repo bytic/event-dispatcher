@@ -2,12 +2,15 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders\Discover;
 
+use Nip\Utility\Oop;
 use Nip\Utility\Str;
 use ReflectionClass;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Class DiscoverEvents
@@ -32,32 +35,50 @@ class DiscoverEvents
 
     /**
      * @param array $paths
-     * @return array|\Roave\BetterReflection\Reflection\ReflectionClass[]
+     * @return array
      */
-    protected static function getListenerClasses($paths): array
+    protected static function getListenerClasses($paths): iterable
     {
-        $astLocator = (new BetterReflection())->astLocator();
         $paths = is_array($paths) ? $paths : [$paths];
-        $directoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
-        if (class_exists(\Roave\BetterReflection\Reflector\ClassReflector::class)) {
-            $reflector = new \Roave\BetterReflection\Reflector\ClassReflector($directoriesSourceLocator);
-            return $reflector->getAllClasses();
+        $files = (new Finder)->files()->in($paths);
+
+        foreach ($files as $file) {
+            yield from static::classFromFile($file);
         }
 
-        $reflector = new DefaultReflector($directoriesSourceLocator);
-        return $reflector->reflectAllClasses();
+//        $astLocator = (new BetterReflection())->astLocator();
+//        $directoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
+//        if (class_exists(\Roave\BetterReflection\Reflector\ClassReflector::class)) {
+//            $reflector = new \Roave\BetterReflection\Reflector\ClassReflector($directoriesSourceLocator);
+//            return $reflector->getAllClasses();
+//        }
+//
+//        $reflector = new DefaultReflector($directoriesSourceLocator);
+//        return $reflector->reflectAllClasses();
+    }
+
+    /**
+     * Extract the class name from the given file path.
+     *
+     * @param  \SplFileInfo  $file
+     * @param  string  $basePath
+     * @return array
+     */
+    protected static function classFromFile(SplFileInfo $file)
+    {
+        return Oop::classesInFile($file);
     }
 
     /**
      * @param \Roave\BetterReflection\Reflection\ReflectionClass[] $listeners
      * @return array
      */
-    protected static function getListenerEvents(array $listeners): array
+    protected static function getListenerEvents(iterable $listeners): array
     {
         $listenerEvents = [];
         foreach ($listeners as $listener) {
             try {
-                $listener = new ReflectionClass($listener->getName());
+                $listener = new ReflectionClass($listener);
                 foreach ($listener->getMethods() as $method) {
                     if (!$method->isPublic()) {
                         continue;

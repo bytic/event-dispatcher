@@ -23,7 +23,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/jetbrains/phpstorm-stubs" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/container" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/makasim/temp-file" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
@@ -50,8 +49,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/queue-interop/queue-interop" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/roave/better-reflection" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/roave/signature" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/comparator" />

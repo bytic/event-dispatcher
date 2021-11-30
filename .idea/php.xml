@@ -41,8 +41,6 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
-      <path value="$PROJECT_DIR$/vendor/roave/signature" />
-      <path value="$PROJECT_DIR$/vendor/roave/better-reflection" />
       <path value="$PROJECT_DIR$/vendor/queue-interop/queue-interop" />
       <path value="$PROJECT_DIR$/vendor/aws/aws-sdk-php" />
       <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
