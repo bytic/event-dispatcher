@@ -6,6 +6,7 @@ use Nip\Utility\Str;
 use ReflectionClass;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 
 /**
@@ -38,8 +39,13 @@ class DiscoverEvents
         $astLocator = (new BetterReflection())->astLocator();
         $paths = is_array($paths) ? $paths : [$paths];
         $directoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
-        $reflector = new ClassReflector($directoriesSourceLocator);
-        return $reflector->getAllClasses();
+        if (class_exists(\Roave\BetterReflection\Reflector\ClassReflector::class)) {
+            $reflector = new \Roave\BetterReflection\Reflector\ClassReflector($directoriesSourceLocator);
+            return $reflector->getAllClasses();
+        }
+
+        $reflector = new DefaultReflector($directoriesSourceLocator);
+        return $reflector->reflectAllClasses();
     }
 
     /**
