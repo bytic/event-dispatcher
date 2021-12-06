@@ -5,10 +5,6 @@ namespace ByTIC\EventDispatcher\ListenerProviders\Discover;
 use Nip\Utility\Oop;
 use Nip\Utility\Str;
 use ReflectionClass;
-use Roave\BetterReflection\BetterReflection;
-use Roave\BetterReflection\Reflector\ClassReflector;
-use Roave\BetterReflection\Reflector\DefaultReflector;
-use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 

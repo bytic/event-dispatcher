@@ -36,7 +36,12 @@ class DiscoverProvider extends DefaultProvider
 
     protected function doDiscovery()
     {
-        $eventsArray = DiscoverEvents::within($this->discoverEventsWithin());
+        $path = $this->discoverEventsWithin();
+
+        if (count($path) < 1) {
+            return;
+        }
+        $eventsArray = DiscoverEvents::within($path);
         foreach ($eventsArray as $event => $listeners) {
             foreach ($listeners as $listener) {
                 $this->listen($event, $listener);

@@ -16,13 +16,10 @@
   ],
   "require": {
     "php": "^7.2|^8.0",
+    "bytic/package-base": "^1.0",
     "bytic/utility": "^1.0",
     "symfony/finder": "^4.3|^5.0",
     "symfony/event-dispatcher": "^4.3|^5.0",
-<<<<<<< HEAD
-=======
-    "roave/better-reflection": "^4.0|^5.0.x-dev",
->>>>>>> ac04c23ff7ca88140e2949d7fac75bcf8eda012a
     "psr/event-dispatcher": "^1.0",
     "fig/event-dispatcher-util": "^1.0",
     "league/event": "^3.0"
@@ -31,6 +28,7 @@
     "bytic/container": "^1.0|^2.0",
     "bytic/config": "^1.0|^2.0",
     "bytic/phpqatools": "^1.0",
+    "bytic/phpqaconfig": "^1.0",
     "bytic/queue": "^0.9|^1.0",
     "queue-interop/queue-interop": "^0.7|^0.8",
     "mockery/mockery": "^1.1"
