@@ -83,7 +83,7 @@ class DiscoverEvents
                         !isset($method->getParameters()[0])) {
                         continue;
                     }
-                    $eventName = $method->getParameters()[0]->getClass()->getName();
+                    $eventName = (string) $method->getParameters()[0]->getType();
                     $listenerEvents[$eventName][] = [$listener->getName(), $method->getName()];
                 }
             } catch (\ReflectionException $e) {
