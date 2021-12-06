@@ -22,13 +22,13 @@ class HasNameTraitTest extends AbstractTest
     {
         $event = Event::named('test');
         $this->assertSame('test', $event->getName());
-        $this->assertSame([], $event->arguments);
+        $this->assertSame([], $event->getArguments());
     }
 
     public function test_named_with_arguments()
     {
         $event = Event::named('test', 1, 2);
         $this->assertSame('test', $event->getName());
-        $this->assertSame([1, 2], $event->arguments);
+        $this->assertSame([1, 2], $event->getArguments());
     }
 }

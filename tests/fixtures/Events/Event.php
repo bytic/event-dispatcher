@@ -16,8 +16,6 @@ class Event implements EventInterface, StoppableEventInterface
     use EventTrait;
     use Dispatchable;
 
-    public $arguments = [];
-
     public function __construct()
     {
         $this->arguments = func_get_args();
