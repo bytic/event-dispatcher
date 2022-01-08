@@ -20,7 +20,7 @@ class DiscoverEvents
     /**
      * Get all of the events and listeners by searching the given listener directory.
      *
-     * @param array $listenerPaths
+     * @param array|string $listenerPaths
      * @return array
      */
     public static function within($listenerPaths): array
@@ -31,7 +31,7 @@ class DiscoverEvents
     }
 
     /**
-     * @param array $paths
+     * @param array|string $paths
      * @return array
      */
     protected static function getListenerClasses($paths): iterable
@@ -57,7 +57,7 @@ class DiscoverEvents
     }
 
     /**
-     * @param \Roave\BetterReflection\Reflection\ReflectionClass[] $listeners
+     * @param array $listeners
      * @return array
      */
     protected static function getListenerEvents(iterable $listeners): array

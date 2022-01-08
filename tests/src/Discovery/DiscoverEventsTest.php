@@ -1,13 +1,13 @@
 <?php
 
-namespace ByTIC\EventDispatcher\Tests\ListenerProviders\Discover;
+namespace ByTIC\EventDispatcher\Tests\Discovery;
 
 use ByTIC\EventDispatcher\Discovery\DiscoverEvents;
 use ByTIC\EventDispatcher\Tests\AbstractTest;
 
 /**
  * Class DiscoverEventsTest
- * @package ByTIC\EventDispatcher\Tests\ListenerProviders\Discover
+ * @package ByTIC\EventDispatcher\Tests\Discovery
  */
 class DiscoverEventsTest extends AbstractTest
 {

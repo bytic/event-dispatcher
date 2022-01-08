@@ -3,27 +3,40 @@
 namespace ByTIC\EventDispatcher\Tests;
 
 use ByTIC\EventDispatcher\Dispatcher\EventDispatcher;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Bytic\Phpqa\PHPUnit\TestCase;
+use Mockery;
+use Mockery\LegacyMockInterface;
+use Mockery\Mock;
+use Mockery\MockInterface;
 use Nip\Container\Utility\Container;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class AbstractTest
  */
 abstract class AbstractTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     protected $object;
 
     /**
-     * @return \Mockery\Mock|EventDispatcher
+     * @return Mock|EventDispatcher
      */
     protected function mockDispatcherInContainer()
     {
-        $dispatcher = \Mockery::mock(EventDispatcher::class)->shouldAllowMockingProtectedMethods()->makePartial();
+        $dispatcher = $this->newMockDispatcher();
         Container::container()->set('events', $dispatcher);
 
+        return $dispatcher;
+    }
+
+    /**
+     * @return LegacyMockInterface|Mock|MockInterface|EventDispatcherInterface
+     */
+    protected function newMockDispatcher()
+    {
+        $dispatcher = Mockery::mock(EventDispatcher::class)
+            ->shouldAllowMockingProtectedMethods()
+            ->makePartial();
         return $dispatcher;
     }
 }

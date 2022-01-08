@@ -12,4 +12,5 @@ use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
  */
 class EventDispatcher extends \Symfony\Component\EventDispatcher\EventDispatcher implements EventDispatcherInterface
 {
+    use Traits\ListenForInterfacesTrait;
 }
