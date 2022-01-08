@@ -10,8 +10,6 @@ use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
  *
  * @property DefaultProvider $listenerProvider
  */
-class EventDispatcher extends \League\Event\EventDispatcher implements EventDispatcherInterface
+class EventDispatcher extends \Symfony\Component\EventDispatcher\EventDispatcher implements EventDispatcherInterface
 {
-    use Traits\HasListenersTrait;
-    use Traits\SymfonyIntegration;
 }

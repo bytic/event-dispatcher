@@ -3,48 +3,42 @@
 namespace ByTIC\EventDispatcher;
 
 use ByTIC\EventDispatcher\Dispatcher\EventDispatcher;
-use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
 use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
-use Psr\EventDispatcher\ListenerProviderInterface;
+use Nip\Container\ServiceProviders\Providers\BootableServiceProviderInterface;
 
 /**
  * Class EventServiceProvider
  * @package ByTIC\EventDispatcher
  */
-class EventServiceProvider extends AbstractSignatureServiceProvider
+class EventServiceProvider extends AbstractSignatureServiceProvider implements BootableServiceProviderInterface
 {
     /**
      * @inheritdoc
      */
     public function register()
     {
-        $this->registerListenerProvider();
         $this->registerDispatcher();
+    }
+
+    public function boot()
+    {
+
+        // TODO: Implement boot() method.
     }
 
     protected function registerDispatcher()
     {
         $this->getContainer()->share('events', function () {
-            return (new EventDispatcher($this->getContainer()->get('events.listeners')));
+            return new EventDispatcher();
         });
     }
 
-    protected function registerListenerProvider()
-    {
-        if (!$this->getContainer()->has(ListenerProviderInterface::class)) {
-            $this->getContainer()->add(ListenerProviderInterface::class, DefaultProvider::class);
-        }
-
-        $this->getContainer()->share('events.listeners', function () {
-            return $this->getContainer()->get(ListenerProviderInterface::class);
-        });
-    }
 
     /**
      * @inheritdoc
      */
-    public function provides()
+    public function provides(): array
     {
-        return ['events', 'events.listeners', ListenerProviderInterface::class];
+        return ['events'];
     }
 }

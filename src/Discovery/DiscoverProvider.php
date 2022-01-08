@@ -1,8 +1,9 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Discover;
+namespace ByTIC\EventDispatcher\Discovery;
 
-use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
+use function app;
+use function config;
 
 /**
  * Class DiscoverProvider

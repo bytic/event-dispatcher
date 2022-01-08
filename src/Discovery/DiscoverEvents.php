@@ -1,10 +1,11 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Discover;
+namespace ByTIC\EventDispatcher\Discovery;
 
 use Nip\Utility\Oop;
 use Nip\Utility\Str;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -41,16 +42,6 @@ class DiscoverEvents
         foreach ($files as $file) {
             yield from static::classFromFile($file);
         }
-
-//        $astLocator = (new BetterReflection())->astLocator();
-//        $directoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
-//        if (class_exists(\Roave\BetterReflection\Reflector\ClassReflector::class)) {
-//            $reflector = new \Roave\BetterReflection\Reflector\ClassReflector($directoriesSourceLocator);
-//            return $reflector->getAllClasses();
-//        }
-//
-//        $reflector = new DefaultReflector($directoriesSourceLocator);
-//        return $reflector->reflectAllClasses();
     }
 
     /**
@@ -83,10 +74,10 @@ class DiscoverEvents
                         !isset($method->getParameters()[0])) {
                         continue;
                     }
-                    $eventName = (string) $method->getParameters()[0]->getType();
+                    $eventName = (string)$method->getParameters()[0]->getType();
                     $listenerEvents[$eventName][] = [$listener->getName(), $method->getName()];
                 }
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
             }
         }
         return array_filter($listenerEvents);

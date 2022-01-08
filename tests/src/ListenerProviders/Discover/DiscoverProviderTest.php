@@ -2,9 +2,10 @@
 
 namespace ByTIC\EventDispatcher\Tests\ListenerProviders\Discover;
 
-use ByTIC\EventDispatcher\ListenerProviders\Discover\DiscoverProvider;
+use ByTIC\EventDispatcher\Discovery\DiscoverProvider;
 use ByTIC\EventDispatcher\Tests\AbstractTest;
 use ByTIC\EventDispatcher\Tests\Fixtures\Events\Event;
+use Mockery;
 use Mockery\Mock;
 
 /**
@@ -27,7 +28,7 @@ class DiscoverProviderTest extends AbstractTest
     public function test_discover_once()
     {
         /** @var Mock|DiscoverProvider $provider */
-        $provider = \Mockery::mock(DiscoverProvider::class)->shouldAllowMockingProtectedMethods()->makePartial();
+        $provider = Mockery::mock(DiscoverProvider::class)->shouldAllowMockingProtectedMethods()->makePartial();
         $provider->shouldReceive('doDiscovery')->once();
         $provider->addDiscoveryPath(TEST_FIXTURE_PATH . '/Listeners');
 

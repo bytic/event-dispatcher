@@ -2,7 +2,7 @@
 
 namespace ByTIC\EventDispatcher\Tests\ListenerProviders\Discover;
 
-use ByTIC\EventDispatcher\ListenerProviders\Discover\DiscoverEvents;
+use ByTIC\EventDispatcher\Discovery\DiscoverEvents;
 use ByTIC\EventDispatcher\Tests\AbstractTest;
 
 /**
