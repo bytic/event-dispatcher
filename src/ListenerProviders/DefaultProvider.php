@@ -13,7 +13,6 @@ use League\Event\ListenerPriority;
 class DefaultProvider extends PriorityListenerProvider
 {
     use ProviderUtilitiesTrait;
-    use ListenForInterfacesTrait;
 
     /**
      * @inheritDoc

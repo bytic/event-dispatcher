@@ -20,7 +20,7 @@ trait QueuedListenerTrait
      * @param string $class
      * @return bool
      */
-    protected function handlerShouldBeQueued($class)
+    protected function handlerShouldBeQueued($class): bool
     {
         try {
             return (new ReflectionClass($class))->implementsInterface(
@@ -38,7 +38,7 @@ trait QueuedListenerTrait
      * @param string $method
      * @return Closure
      */
-    protected function createQueuedHandlerCallable($class, $method)
+    protected function createQueuedHandlerCallable(string $class, string $method): Closure
     {
         return function ($event) use ($class, $method) {
 //            $arguments = array_map(function ($a) {
@@ -58,7 +58,7 @@ trait QueuedListenerTrait
      * @param mixed $event
      * @return bool
      */
-    protected function handlerWantsToBeQueued($class, $event)
+    protected function handlerWantsToBeQueued(string $class, $event): bool
     {
         if (method_exists($class, 'shouldQueue')) {
             $listener = new $class();

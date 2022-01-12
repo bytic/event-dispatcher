@@ -1,15 +1,7 @@
 {
   "commit-msg": {
-    "enabled": true,
+    "enabled": false,
     "actions": [
-      {
-        "action": "\\CaptainHook\\App\\Hook\\Message\\Action\\Beams",
-        "options": {
-          "subjectLength": 50,
-          "bodyLineLength": 72
-        },
-        "conditions": []
-      }
     ]
   },
   "pre-push": {
@@ -17,13 +9,8 @@
     "actions": []
   },
   "pre-commit": {
-    "enabled": true,
+    "enabled": false,
     "actions": [
-      {
-        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
-        "options": [],
-        "conditions": []
-      }
     ]
   },
   "prepare-commit-msg": {

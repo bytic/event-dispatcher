@@ -20,7 +20,7 @@ trait MakeListenerTrait
      * @param Closure|string|array $listener
      * @return Closure
      */
-    public function makeListener($listener)
+    public function makeListener($listener): Closure
     {
         if (is_string($listener) || is_array($listener)) {
             return $this->createClassListener($listener);
@@ -40,7 +40,7 @@ trait MakeListenerTrait
      * @param string $listener
      * @return Closure
      */
-    protected function createClassListener($listener)
+    protected function createClassListener($listener): Closure
     {
         return function ($event) use ($listener) {
             return call_user_func_array(
@@ -54,7 +54,7 @@ trait MakeListenerTrait
      * @param $listener
      * @return Closure
      */
-    protected function createObjectListener($listener)
+    protected function createObjectListener($listener): Closure
     {
         return function ($event) use ($listener) {
             return $listener($event);
