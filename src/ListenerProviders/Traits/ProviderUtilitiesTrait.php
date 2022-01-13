@@ -3,7 +3,6 @@
 namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
 
 use Fig\EventDispatcher\ParameterDeriverTrait;
-use Nip\Utility\Str;
 
 /**
  * Trait ProviderUtilitiesTrait

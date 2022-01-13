@@ -15,7 +15,6 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 class PriorityListenerProvider extends PrioritizedListenerRegistry implements ListenerProviderInterface
 {
     use ProviderUtilitiesTrait;
-    use MakeListenerTrait;
 
     protected function getListenersForEventName(string $eventName): iterable
     {

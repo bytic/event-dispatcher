@@ -30,7 +30,7 @@ abstract class AbstractTest extends TestCase
     }
 
     /**
-     * @return LegacyMockInterface|Mock|MockInterface|EventDispatcherInterface
+     * @return LegacyMockInterface|Mock|MockInterface|EventDispatcherInterface|EventDispatcher
      */
     protected function newMockDispatcher()
     {

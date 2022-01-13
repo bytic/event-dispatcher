@@ -1,18 +1,27 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
+namespace ByTIC\EventDispatcher\Dispatcher\Traits;
 
-use ByTIC\EventDispatcher\Queue\ListenerProviders\QueuedListenerTrait;
+use ByTIC\EventDispatcher\Queue\Dispatcher\QueuedListenerTrait;
 use Closure;
 use Nip\Utility\Str;
 
 /**
  * Trait MakeListenerTrait
- * @package ByTIC\EventDispatcher\ListenerProviders\Traits
+ * @package ByTIC\EventDispatcher\Dispatcher\Traits
  */
 trait MakeListenerTrait
 {
     use QueuedListenerTrait;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addListener(string $eventName, $listener, int $priority = 0)
+    {
+        $listener = $this->makeListener($listener);
+        parent::addListener($eventName, $listener, $priority);
+    }
 
     /**
      * Register an event listener with the dispatcher.

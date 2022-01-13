@@ -1,6 +1,6 @@
 <?php
 
-namespace ByTIC\EventDispatcher\Queue\ListenerProviders;
+namespace ByTIC\EventDispatcher\Queue\Dispatcher;
 
 use ByTIC\EventDispatcher\Queue\Listeners\CallQueuedListener;
 use ByTIC\EventDispatcher\Queue\Listeners\ShouldQueue;
