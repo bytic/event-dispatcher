@@ -2,7 +2,7 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
 
-use ByTIC\EventDispatcher\Queue\ListenerProviders\QueuedListenerTrait;
+use ByTIC\EventDispatcher\Queue\Dispatcher\QueuedListenerTrait;
 use Closure;
 use Nip\Utility\Str;
 

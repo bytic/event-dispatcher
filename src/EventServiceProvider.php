@@ -28,7 +28,7 @@ class EventServiceProvider extends AbstractSignatureServiceProvider implements B
 
     public function boot()
     {
-        $basePath = $this->getContainer()->get('app');
+        $basePath = $this->getContainer()->get('path');
         $basePath .= DIRECTORY_SEPARATOR . 'Listeners';
         if (false === is_dir($basePath)) {
             return;

@@ -2,15 +2,12 @@
 
 namespace ByTIC\EventDispatcher\ListenerProviders;
 
-use League\Event\ListenerPriority;
-
 /**
  * Class DefaultProvider
  * @package ByTIC\EventDispatcher\ListenerProvider
  */
 class DefaultProvider extends PriorityListenerProvider
 {
-    use Traits\ProviderUtilitiesTrait;
     use Traits\ListenForInterfacesTrait;
 
     /**
