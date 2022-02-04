@@ -1,11 +1,11 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders;
+namespace ListenerProviders;
 
 use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
-use ByTIC\EventDispatcher\ListenerProviders\Traits\ProviderUtilitiesTrait;
 use League\Event\ListenerPriority;
 use League\Event\PrioritizedListenerRegistry;
+use ListenerProviders\Traits\ProviderUtilitiesTrait;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**

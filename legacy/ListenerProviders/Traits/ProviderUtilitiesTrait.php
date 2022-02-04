@@ -1,6 +1,6 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
+namespace ListenerProviders\Traits;
 
 use Fig\EventDispatcher\ParameterDeriverTrait;
 
