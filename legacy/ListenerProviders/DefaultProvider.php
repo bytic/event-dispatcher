@@ -19,6 +19,8 @@ class DefaultProvider extends PriorityListenerProvider
 
         if (method_exists($event, 'eventName')) {
             yield from $this->getListenersForEventName($event->eventName());
+        } elseif (method_exists($event, 'getName')) {
+            yield from $this->getListenersForEventName($event->getName());
         }
         yield from $this->getListenersForEventInterfaces($event);
     }
