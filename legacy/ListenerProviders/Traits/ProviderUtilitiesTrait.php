@@ -1,9 +1,8 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
+namespace ListenerProviders\Traits;
 
 use Fig\EventDispatcher\ParameterDeriverTrait;
-use Nip\Utility\Str;
 
 /**
  * Trait ProviderUtilitiesTrait

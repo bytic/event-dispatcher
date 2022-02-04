@@ -1,8 +1,10 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Discover;
+namespace ByTIC\EventDispatcher\Discovery;
 
-use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use function app;
+use function config;
 
 /**
  * Class DiscoverProvider
@@ -10,43 +12,68 @@ use ByTIC\EventDispatcher\ListenerProviders\DefaultProvider;
  *
  * @internal
  */
-class DiscoverProvider extends DefaultProvider
+class RegisterDiscoveredEvents
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
+     * @var ?array
+     */
     protected $discovered = null;
 
     protected $discoveryPath = null;
 
     /**
+     * RegisterDiscoveredEvents constructor.
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
      * @inheritDoc
      */
-    public function getListenersForEvent(object $event): iterable
+    public function register()
     {
-        $this->discover();
-        return parent::getListenersForEvent($event);
-    }
-
-    protected function discover()
-    {
-        if ($this->discovered !== null) {
-            return;
+        $events = $this->discover();
+        foreach ($events as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $this->dispatcher->addListener($event, $listener);
+            }
         }
-        $this->doDiscovery();
-        $this->discovered = true;
     }
 
-    protected function doDiscovery()
+    /**
+     * @return null
+     */
+    protected function discover(): ?array
+    {
+        if ($this->discovered === null) {
+            $this->discovered = $this->doDiscovery();
+        }
+        return $this->discovered;
+    }
+
+    protected function doDiscovery(): array
     {
         $path = $this->discoverEventsWithin();
+        $return = [];
 
         if (count($path) < 1) {
-            return;
+            return $return;
         }
         $eventsArray = DiscoverEvents::within($path);
         foreach ($eventsArray as $event => $listeners) {
             foreach ($listeners as $listener) {
-                $this->listen($event, $listener);
+                $return[$event][] = $listener;
             }
         }
+        return $return;
     }
 
     /**

@@ -37,7 +37,7 @@ class SimpleListener implements ListenerInterface
      * @param EventInterface|string $event
      * @return bool
      */
-    public function invoked($event)
+    public function invoked($event): bool
     {
         $name = is_object($event) ? $event->getName() : $event;
         return isset($this->events[$name]);

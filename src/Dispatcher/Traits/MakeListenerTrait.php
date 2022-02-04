@@ -1,18 +1,27 @@
 <?php
 
-namespace ByTIC\EventDispatcher\ListenerProviders\Traits;
+namespace ByTIC\EventDispatcher\Dispatcher\Traits;
 
-use ByTIC\EventDispatcher\Queue\ListenerProviders\QueuedListenerTrait;
+use ByTIC\EventDispatcher\Queue\Dispatcher\QueuedListenerTrait;
 use Closure;
 use Nip\Utility\Str;
 
 /**
  * Trait MakeListenerTrait
- * @package ByTIC\EventDispatcher\ListenerProviders\Traits
+ * @package ByTIC\EventDispatcher\Dispatcher\Traits
  */
 trait MakeListenerTrait
 {
     use QueuedListenerTrait;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addListener(string $eventName, $listener, int $priority = 0)
+    {
+        $listener = $this->makeListener($listener);
+        parent::addListener($eventName, $listener, $priority);
+    }
 
     /**
      * Register an event listener with the dispatcher.
@@ -20,7 +29,7 @@ trait MakeListenerTrait
      * @param Closure|string|array $listener
      * @return Closure
      */
-    public function makeListener($listener)
+    public function makeListener($listener): Closure
     {
         if (is_string($listener) || is_array($listener)) {
             return $this->createClassListener($listener);
@@ -40,7 +49,7 @@ trait MakeListenerTrait
      * @param string $listener
      * @return Closure
      */
-    protected function createClassListener($listener)
+    protected function createClassListener($listener): Closure
     {
         return function ($event) use ($listener) {
             return call_user_func_array(
@@ -54,7 +63,7 @@ trait MakeListenerTrait
      * @param $listener
      * @return Closure
      */
-    protected function createObjectListener($listener)
+    protected function createObjectListener($listener): Closure
     {
         return function ($event) use ($listener) {
             return $listener($event);

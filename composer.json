@@ -1,13 +1,13 @@
 {
   "name": "bytic/event-dispatcher",
   "description": "ByTIC Events package.",
+  "license": "MIT",
   "type": "library",
   "keywords": [
     "psr",
     "psr-14",
     "events"
   ],
-  "license": "MIT",
   "authors": [
     {
       "name": "Gabriel Solomon",
@@ -15,27 +15,30 @@
     }
   ],
   "require": {
-    "php": "^7.2|^8.0",
+    "php": "^7.2 || ^8.0",
     "bytic/package-base": "^1.0",
     "bytic/utility": "^1.0",
-    "symfony/finder": "^4.3|^5.0",
-    "psr/event-dispatcher": "^1.0",
     "fig/event-dispatcher-util": "^1.0",
-    "league/event": "^3.0"
+    "psr/event-dispatcher": "^1.0",
+    "symfony/event-dispatcher": "^4.3 || ^5.0",
+    "symfony/finder": "^4.3 || ^5.0"
   },
   "require-dev": {
-    "bytic/container": "^1.0|^2.0",
-    "bytic/config": "^1.0|^2.0",
-    "bytic/phpqatools": "^1.0",
+    "bytic/cache": "^1.0 || ^2.0",
+    "bytic/config": "^1.0 || ^2.0",
+    "bytic/container": "^1.0 || ^2.0",
     "bytic/phpqaconfig": "^1.0",
-    "bytic/queue": "^0.9|^1.0",
-    "queue-interop/queue-interop": "^0.7|^0.8",
-    "mockery/mockery": "^1.1"
+    "bytic/phpqatools": "^1.0",
+    "league/event": "^2.0|^3.0",
+    "bytic/queue": "^0.9 || ^1.0",
+    "queue-interop/queue-interop": "^0.7 || ^0.8"
   },
   "provide": {
     "psr/event-dispatcher-implementation": "1.0",
-    "symfony/event-dispatcher-implementation": "1.1"
+    "symfony/event-dispatcher-implementation": "2.0"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "ByTIC\\EventDispatcher\\": "src"
@@ -52,20 +55,5 @@
       "ByTIC\\EventDispatcher\\Tests\\": "tests/src",
       "ByTIC\\EventDispatcher\\Tests\\Fixtures\\": "tests/fixtures"
     }
-  },
-  "scripts": {
-    "tests": [
-      "@test",
-      "@analyse"
-    ],
-    "test": [
-      "phpunit"
-    ],
-    "analyse": [
-      "@stan",
-      "@psalm"
-    ],
-    "stan": "phpstan analyse",
-    "psalm": "psalm --output-format=compact --find-dead-code --find-unused-psalm-suppress --long-progress "
   }
 }
