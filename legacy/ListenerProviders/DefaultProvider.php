@@ -1,10 +1,8 @@
 <?php
 
-namespace ListenerProviders;
+namespace ByTIC\EventDispatcher\ListenerProviders;
 
-use ByTIC\EventDispatcher\ListenerProviders\Traits\ListenForInterfacesTrait;
 use League\Event\ListenerPriority;
-use ListenerProviders\Traits\ProviderUtilitiesTrait;
 
 /**
  * Class DefaultProvider
@@ -12,7 +10,8 @@ use ListenerProviders\Traits\ProviderUtilitiesTrait;
  */
 class DefaultProvider extends PriorityListenerProvider
 {
-    use ProviderUtilitiesTrait;
+    use Traits\ProviderUtilitiesTrait;
+    use Traits\ListenForInterfacesTrait;
 
     /**
      * @inheritDoc
@@ -21,7 +20,7 @@ class DefaultProvider extends PriorityListenerProvider
     {
         yield from parent::getListenersForEvent($event);
 
-        if (method_exists($event, 'getName') ){
+        if (method_exists($event, 'getName')) {
             yield from $this->getListenersForEventName($event->eventName());
         }
         yield from $this->getListenersForEventInterfaces($event);

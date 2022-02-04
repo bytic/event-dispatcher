@@ -1,11 +1,9 @@
 <?php
 
-namespace ListenerProviders;
+namespace ByTIC\EventDispatcher\ListenerProviders;
 
-use ByTIC\EventDispatcher\ListenerProviders\Traits\MakeListenerTrait;
 use League\Event\ListenerPriority;
 use League\Event\PrioritizedListenerRegistry;
-use ListenerProviders\Traits\ProviderUtilitiesTrait;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 /**
@@ -14,7 +12,7 @@ use Psr\EventDispatcher\ListenerProviderInterface;
  */
 class PriorityListenerProvider extends PrioritizedListenerRegistry implements ListenerProviderInterface
 {
-    use ProviderUtilitiesTrait;
+    use Traits\ProviderUtilitiesTrait;
 
     protected function getListenersForEventName(string $eventName): iterable
     {
