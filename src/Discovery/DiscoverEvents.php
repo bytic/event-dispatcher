@@ -3,6 +3,7 @@
 namespace ByTIC\EventDispatcher\Discovery;
 
 use Nip\Utility\Oop;
+use Nip\Utility\Reflector;
 use Nip\Utility\Str;
 use ReflectionClass;
 use ReflectionException;
@@ -47,8 +48,8 @@ class DiscoverEvents
     /**
      * Extract the class name from the given file path.
      *
-     * @param  \SplFileInfo  $file
-     * @param  string  $basePath
+     * @param \SplFileInfo $file
+     * @param string $basePath
      * @return array
      */
     protected static function classFromFile(SplFileInfo $file)
@@ -62,24 +63,38 @@ class DiscoverEvents
      */
     protected static function getListenerEvents(iterable $listeners): array
     {
-        $listenerEvents = [];
+        $return = [];
         foreach ($listeners as $listener) {
-            try {
-                $listener = new ReflectionClass($listener);
-                foreach ($listener->getMethods() as $method) {
-                    if (!$method->isPublic()) {
-                        continue;
-                    }
-                    if (!Str::is('handle*', $method->name) ||
-                        !isset($method->getParameters()[0])) {
-                        continue;
-                    }
-                    $eventName = (string)$method->getParameters()[0]->getType();
-                    $listenerEvents[$eventName][] = [$listener->getName(), $method->getName()];
-                }
-            } catch (ReflectionException $e) {
-            }
+            $return = static::getListenerEventsFromClass($listener, $return);
         }
-        return array_filter($listenerEvents);
+        return array_filter($return);
+    }
+
+    /**
+     * @param string $class
+     * @param $listenerEvents
+     * @return array
+     */
+    protected static function getListenerEventsFromClass(string $class, $listenerEvents = []): array
+    {
+        try {
+            $listener = new ReflectionClass($class);
+            foreach ($listener->getMethods() as $method) {
+                if (!$method->isPublic()) {
+                    continue;
+                }
+                if (!Str::is('handle*', $method->name) ||
+                    !isset($method->getParameters()[0])) {
+                    continue;
+                }
+                $events = Reflector::getParameterClassNames($method->getParameters()[0]);
+                foreach ($events as $event) {
+                    $key = $listener->name . '@' . $method->name;
+                    $listenerEvents[$event][$key] = [$listener->getName(), $method->getName()];
+                }
+            }
+        } catch (ReflectionException $e) {
+        }
+        return $listenerEvents;
     }
 }
