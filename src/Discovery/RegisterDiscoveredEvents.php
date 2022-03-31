@@ -2,6 +2,7 @@
 
 namespace ByTIC\EventDispatcher\Discovery;
 
+use Nip\Cache\Cacheable\CanCache;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use function app;
 use function config;
@@ -14,6 +15,8 @@ use function config;
  */
 class RegisterDiscoveredEvents
 {
+    use CanCache;
+
     /**
      * @var EventDispatcherInterface
      */
@@ -54,7 +57,12 @@ class RegisterDiscoveredEvents
     protected function discover(): ?array
     {
         if ($this->discovered === null) {
-            $this->discovered = $this->doDiscovery();
+            $data = $this->getDataFromCache();
+            if (!is_array($data)) {
+                $data = $this->doDiscovery();
+                $this->saveDataToCache($data);
+            }
+            $this->discovered = $data;
         }
         return $this->discovered;
     }
@@ -162,5 +170,10 @@ class RegisterDiscoveredEvents
             return $app->get('path');
         }
         return false;
+    }
+
+    public function generateCacheData(): array
+    {
+        return $this->doDiscovery();
     }
 }
