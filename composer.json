@@ -20,8 +20,8 @@
     "bytic/utility": "^1.0",
     "fig/event-dispatcher-util": "^1.0",
     "psr/event-dispatcher": "^1.0",
-    "symfony/event-dispatcher": "^4.3 || ^5.0",
-    "symfony/finder": "^4.3 || ^5.0"
+    "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0",
+    "symfony/finder": "^4.3 || ^5.0 || ^6.0"
   },
   "require-dev": {
     "bytic/cache": "^1.0 || ^2.0",
@@ -54,6 +54,14 @@
     "psr-4": {
       "ByTIC\\EventDispatcher\\Tests\\": "tests/src",
       "ByTIC\\EventDispatcher\\Tests\\Fixtures\\": "tests/fixtures"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "ergebnis/composer-normalize": true,
+      "phpstan/extension-installer": true,
+      "bytic/phpqatools": true
     }
   }
 }
