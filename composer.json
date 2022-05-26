@@ -19,7 +19,7 @@
     "bytic/package-base": "^1.0",
     "bytic/utility": "^1.0",
     "fig/event-dispatcher-util": "^1.0",
-    "psr/event-dispatcher": "^1.0",
+    "psr/event-dispatcher": "^1.0 || ^2.0",
     "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0",
     "symfony/finder": "^4.3 || ^5.0 || ^6.0"
   },
