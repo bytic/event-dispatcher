@@ -84,7 +84,7 @@ trait MakeListenerTrait
             return $this->createQueuedHandlerCallable($class, $method);
         }
 
-        $listenerObject = app($class);
+        $listenerObject = is_object($class) ? $class : app($class);
         return [$listenerObject, $method];
     }
 
