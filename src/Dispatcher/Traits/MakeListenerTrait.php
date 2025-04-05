@@ -17,7 +17,7 @@ trait MakeListenerTrait
     /**
      * {@inheritdoc}
      */
-    public function addListener(string $eventName, $listener, int $priority = 0)
+    public function addListener(string $eventName, callable|array $listener, int $priority = 0): void
     {
         $listener = $this->makeListener($listener);
         parent::addListener($eventName, $listener, $priority);
