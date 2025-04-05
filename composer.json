@@ -20,8 +20,8 @@
     "bytic/utility": "^1.0",
     "fig/event-dispatcher-util": "^1.0",
     "psr/event-dispatcher": "^1.0 || ^2.0",
-    "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0",
-    "symfony/finder": "^4.3 || ^5.0 || ^6.0"
+    "symfony/event-dispatcher": "^5.0 || ^6.0 || ^7.0",
+    "symfony/finder": "^5.0 || ^6.0 || ^7.0"
   },
   "require-dev": {
     "bytic/cache": "^1.0 || ^2.0",
@@ -30,7 +30,7 @@
     "bytic/phpqaconfig": "^1.0",
     "bytic/phpqatools": "^1.0",
     "league/event": "^2.0|^3.0",
-    "bytic/queue": "^0.9 || ^1.0",
+    "bytic/queue": "^1.0 || ^2.0",
     "queue-interop/queue-interop": "^0.7 || ^0.8"
   },
   "provide": {
